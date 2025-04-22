@@ -46,10 +46,7 @@ function Sidebar() {
           position: 'fixed',
           left: 0,
           top: 0,
-          background:
-            theme.palette.mode === 'dark'
-              ? alpha(lighten(theme.header.background ?? '', 0.1), 0.5)
-              : darken(theme.colors.alpha.black[100], 0.5),
+          background: 'linear-gradient(135deg,rgba(27, 4, 53, 0.98) 0%,rgb(18, 2, 29) 100%)',
           boxShadow:
             theme.palette.mode === 'dark' ? theme.sidebar.boxShadow : 'none'
         }}

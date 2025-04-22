@@ -1,19 +1,26 @@
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import { BrowserRouter } from 'react-router-dom';
-import { SidebarProvider } from './contexts/SidebarContext';
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { BrowserRouter } from "react-router-dom";
+import { SidebarProvider } from "./contexts/SidebarContext";
+import React from "react";
+import { Provider } from "react-redux";
+import { store } from "./redux-store/stores/store";
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
 root.render(
-    <SidebarProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </SidebarProvider>
+  <React.StrictMode>
+    <Provider store={store}>
+      <SidebarProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </SidebarProvider>
+    </Provider>
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
