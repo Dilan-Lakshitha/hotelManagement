@@ -3,6 +3,8 @@ import authReducer from '../reducers/auth-reducer';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage'; // Defaults to localStorage
 import { FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
+import driverReducer from '../reducers/driver-reducer';
+import guideReducer from '../reducers/guide-reducer';
 
 
 const persistConfig = {
@@ -15,6 +17,8 @@ const persistedAuthReducer = persistReducer(persistConfig, authReducer);
 export const store = configureStore({
   reducer: {
     auth: persistedAuthReducer,
+    driver: driverReducer,
+    guide: guideReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

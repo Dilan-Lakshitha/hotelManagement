@@ -6,6 +6,7 @@ import SuspenseLoader from "./components/SuspenseLoader";
 import SignInForm from "./auth/signIn/signIn";
 import SignUpForm from "./auth/signUp/signUp";
 import MainDashboard from "./content/main-dashboard/main-dashboard";
+import DriverDashboard from "./content/overview/driver/driverDashboard/driverDashboard";
 
 const isAuthenticated = () => {
   return !!localStorage.getItem("authToken");
@@ -48,11 +49,11 @@ const routes: RouteObject[] = [
         element: <MainDashboard />,
       },
           {
-            path: 'patinet',
-            // element: <PatientDashboard />
+            path: 'driver',
+            element: <DriverDashboard />
           },
           {
-            path: 'supplier',
+            path: 'guide',
             // element: <SupplierDashboard />
           },
           {

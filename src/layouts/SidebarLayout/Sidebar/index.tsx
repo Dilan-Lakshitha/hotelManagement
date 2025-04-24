@@ -5,14 +5,10 @@ import { SidebarContext } from '../../../contexts/SidebarContext';
 import {
   Box,
   Drawer,
-  alpha,
   styled,
   Divider,
   useTheme,
-  Button,
-  lighten,
   darken,
-  Tooltip
 } from '@mui/material';
 
 import SidebarMenu from './SidebarMenu';
@@ -46,49 +42,28 @@ function Sidebar() {
           position: 'fixed',
           left: 0,
           top: 0,
-          background: 'linear-gradient(135deg,rgba(27, 4, 53, 0.98) 0%,rgb(18, 2, 29) 100%)',
+          background: '#261140',
           boxShadow:
             theme.palette.mode === 'dark' ? theme.sidebar.boxShadow : 'none'
         }}
       >
         <Scrollbar>
-          <Box mt={3}>
+          <Box>
             <Box
               mx={2}
-              sx={{
-                width: 52
-              }}
             >
               <Logo />
             </Box>
           </Box>
           <Divider
             sx={{
-              mt: theme.spacing(3),
+              mt: theme.spacing(1),
               mx: theme.spacing(2),
               background: theme.colors.alpha.trueWhite[10]
             }}
           />
           <SidebarMenu />
         </Scrollbar>
-        <Divider
-          sx={{
-            background: theme.colors.alpha.trueWhite[10]
-          }}
-        />
-        <Box p={2}>
-          <Button
-            href="https://bloomui.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            variant="contained"
-            color="warning"
-            size="small"
-            fullWidth
-          >
-            Upgrade to PRO
-          </Button>
-        </Box>
       </SidebarWrapper>
       <Drawer
         sx={{
