@@ -14,7 +14,6 @@ import {
   FormControlLabel,
   Checkbox,
   MenuItem,
-  InputAdornment,
 } from "@mui/material";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import { useEffect, useState } from "react";
@@ -23,11 +22,11 @@ import { AppDispatch } from "../../../../redux-store/stores/store";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import {
-  guideCreate,
-  guides,
-  updateGuide,
-} from "../../../../shared/service/guideService";
-import GuideTable from "./guideTable";
+  locationCreate,
+  locations,
+  updatelocation,
+} from "../../../../shared/service/locationService";
+import LocationTable from "./locationTable";
 import { getDecodedToken } from "../../../../shared/service/managerService";
 import { JwtPayload } from "jwt-decode";
 
@@ -37,12 +36,12 @@ interface ExtendedJwtPayload extends JwtPayload {
   agency_id?: string;
 }
 
-function GuideDashboard() {
+function LocationDashboard() {
   const { success } = useSelector((state: any) => state.auth);
-  const guideList = useSelector((state: any) => state.guide.guide);
+  const locationList = useSelector((state: any) => state.location.location);
   const [open, setOpen] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
-  const [selectedGuide, setSelectedGuide] = useState<any>(null);
+  const [selectedLocation, setSelectedLocation] = useState<any>(null);
   const [agencyName, setAgencyName] = useState<number | null>(null);
 
   const dispath: AppDispatch = useDispatch();
@@ -55,7 +54,7 @@ function GuideDashboard() {
   } = useForm({ mode: "onChange" });
 
   useEffect(() => {
-    dispath(guides());
+    dispath(locations());
   }, [dispath]);
 
   useEffect(() => {
@@ -72,16 +71,20 @@ function GuideDashboard() {
 
   const submitForm = async (data: any) => {
     try {
-      const payload = {
-        ...data,
+      const Payload = {
+        locationName: data.locationName,
+        description: data.description,
+        adultPrice: data.adultPrice,
+        childPrice: data.childPrice,
         agencyId: agencyName,
+        locationTicketId: selectedLocation?.location_ticket_id,
       };
       if (isEditMode) {
-        dispath(updateGuide({ ...selectedGuide, ...payload }));
-        toast.success("Guide updated successfully! 🎉");
+        dispath(updatelocation(Payload));
+        toast.success("Location updated successfully! 🎉");
       } else {
-        dispath(guideCreate(payload));
-        toast.success("Guide added successfully! 🎉");
+        dispath(locationCreate(Payload));
+        toast.success("Location added successfully! 🎉");
       }
       handleClose();
     } catch {
@@ -90,21 +93,16 @@ function GuideDashboard() {
   };
 
   useEffect(() => {
-    if (selectedGuide) {
-      console.log("selectedGuide", selectedGuide);
-      setValue("name", selectedGuide.name);
-      setValue("speakingLanguages", selectedGuide.speakingLanguages);
-      setValue("pricePerDay", selectedGuide.pricePerDay);
-      setValue("phone", selectedGuide.phone);
-      setValue("email", selectedGuide.email);
-      setValue("licenseNumber", selectedGuide.licenseNumber);
-      setValue("yearsOfExperience", selectedGuide.yearsOfExperience);
-      setValue("isAvailable", selectedGuide.isAvailable);
-      setValue("notes", selectedGuide.notes);
+    if (selectedLocation) {
+      console.log("selectedLocation", selectedLocation);
+      setValue("locationName", selectedLocation.location_name);
+      setValue("description", selectedLocation.description);
+      setValue("adultPrice", selectedLocation.adult_price);
+      setValue("childPrice", selectedLocation.child_price);
     } else {
       reset();
     }
-  }, [selectedGuide, setValue, reset]);
+  }, [selectedLocation, setValue, reset]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -112,13 +110,13 @@ function GuideDashboard() {
 
   const handleClose = () => {
     setOpen(false);
-    setSelectedGuide(null);
+    setSelectedLocation(null);
     setIsEditMode(false);
     reset();
   };
 
-  const handleEdit = (guide: any) => {
-    setSelectedGuide(guide);
+  const handleEdit = (location: any) => {
+    setSelectedLocation(location);
     setIsEditMode(true);
     setOpen(true);
   };
@@ -135,7 +133,7 @@ function GuideDashboard() {
           justifyContent: "flex-start",
         }}
       >
-        Guide Dashboard
+        Location Dashboard
       </h1>
       <h3
         style={{
@@ -146,7 +144,7 @@ function GuideDashboard() {
           justifyContent: "flex-start",
         }}
       >
-        Add and manage your guides here
+        Add and manage your locations here
       </h3>
       <Grid spacing={{ xs: 0, md: 2 }}>
         <Grid item md={10} lg={0} mx="auto" alignItems="end">
@@ -159,12 +157,15 @@ function GuideDashboard() {
             >
               <PersonAddIcon />
               <Icon fontSize="small" />
-              Add guide
+              Add location
             </Button>
           </Box>
           <Grid item md={6} mt={2} mx="auto">
             <Card>
-              <GuideTable Guides={guideList || []} onEdit={handleEdit} />
+              <LocationTable
+                Locations={locationList || []}
+                onEdit={handleEdit}
+              />
             </Card>
           </Grid>
         </Grid>
@@ -173,7 +174,7 @@ function GuideDashboard() {
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle sx={{ backgroundColor: "#261140", color: "white" }}>
           <PersonAddIcon sx={{ marginRight: 1 }} />
-          {isEditMode ? "Update Guide" : "Add Guide"}
+          {isEditMode ? "Update Location" : "Add Location"}
         </DialogTitle>
         <form
           onSubmit={handleSubmit(submitForm)}
@@ -182,117 +183,62 @@ function GuideDashboard() {
           <DialogContent>
             <DialogContentText>
               Please fill out the form to {isEditMode ? "update" : "add"} a
-              guide.
+              location.
             </DialogContentText>
+
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                required
+                label="Location Name"
+                variant="standard"
+                {...register("locationName", {
+                  required: "Location Name is required",
+                })}
+              />
+            </Grid>
 
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
                   required
-                  label="Guide Name"
+                  label="Adult Price"
                   variant="standard"
-                  {...register("name", { required: "Guide Name is required" })}
-                />
-              </Grid>
-
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  select
-                  fullWidth
-                  required
-                  label="Language"
-                  variant="standard"
-                  defaultValue=""
-                  {...register("speakingLanguages", {
-                    required: "Language is required",
-                  })}
-                >
-                  <MenuItem value="English">English</MenuItem>
-                  <MenuItem value="German">German</MenuItem>
-                  <MenuItem value="Russian">Russian</MenuItem>
-                </TextField>
-              </Grid>
-
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  required
-                  label="Price"
                   type="number"
-                  variant="standard"
-                  {...register("pricePerDay", {
-                    required: "Price per Day is required",
+                  defaultValue=""
+                  {...register("adultPrice", {
+                    required: "Adult price is required",
                     valueAsNumber: true,
                   })}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">$</InputAdornment>
-                    ),
-                  }}
-                />
-              </Grid>
-              
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  required
-                  label="Phone"
-                  variant="standard"
-                  {...register("phone", { required: "Phone is required" })}
-                />
+                ></TextField>
               </Grid>
 
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
                   required
-                  label="Email"
-                  type="email"
+                  label="Child price"
+                  type="number"
                   variant="standard"
-                  {...register("email", { required: "Email is required" })}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  required
-                  label="License Number"
-                  variant="standard"
-                  {...register("licenseNumber", {
-                    required: "License Number is required",
+                  {...register("childPrice", {
+                    required: "Child price is required",
+                    valueAsNumber: true,
                   })}
                 />
               </Grid>
-
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  required
-                  label="Experience"
-                  variant="standard"
-                  {...register("yearsOfExperience", {
-                    required: "Experience Model is required",
-                  })}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <FormControlLabel
-                  control={<Checkbox {...register("isAvailable")} />}
-                  label="Available"
-                />
-              </Grid>
-
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  label="Notes"
-                  multiline
-                  rows={3}
-                  variant="standard"
-                  {...register("notes")}
-                />
-              </Grid>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                required
+                label="Description"
+                multiline
+                variant="standard"
+                {...register("description", {
+                  required: "description is required",
+                })}
+              />
             </Grid>
           </DialogContent>
 
@@ -313,4 +259,4 @@ function GuideDashboard() {
     </Container>
   );
 }
-export default GuideDashboard;
+export default LocationDashboard;

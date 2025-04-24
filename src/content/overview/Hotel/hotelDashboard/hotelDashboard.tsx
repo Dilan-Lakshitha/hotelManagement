@@ -14,6 +14,7 @@ import {
   FormControlLabel,
   Checkbox,
   MenuItem,
+  InputAdornment,
 } from "@mui/material";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import { useEffect, useState } from "react";
@@ -85,7 +86,7 @@ function HotelDashboard() {
         HotelRates: rateList,
         HotelId: selectedHotel?.hotel_id,
       };
-  
+
       if (isEditMode) {
         dispath(updateHotel(hotelPayload));
         toast.success("Hotel updated successfully! 🎉");
@@ -93,13 +94,12 @@ function HotelDashboard() {
         dispath(hotelCreate(hotelPayload));
         toast.success("Hotel added successfully! 🎉");
       }
-  
+
       handleClose();
     } catch {
       toast.error("Operation failed. Please check your network.");
     }
   };
-  
 
   useEffect(() => {
     if (selectedHotel) {
@@ -110,14 +110,16 @@ function HotelDashboard() {
 
       if (selectedHotel.hotelRates && selectedHotel.hotelRates.length > 0) {
         const rates = selectedHotel.hotelRates.map((rate: any) => ({
-            rateType: rate.rate_type || "",
-            startDate: rate.start_date?.split("T")[0] || "",
-            endDate: rate.end_date?.split("T")[0] || "",
-            ratePrice: rate?.rate,
+          rateType: rate.rate_type || "",
+          startDate: rate.start_date?.split("T")[0] || "",
+          endDate: rate.end_date?.split("T")[0] || "",
+          ratePrice: rate?.rate,
         }));
         setRateList(rates);
       } else {
-        setRateList([{ rateType: "", startDate: "", endDate: "", ratePrice: 0 }]);
+        setRateList([
+          { rateType: "", startDate: "", endDate: "", ratePrice: 0 },
+        ]);
       }
     } else {
       reset();
@@ -147,7 +149,6 @@ function HotelDashboard() {
     updatedList[index][field] = field === "ratePrice" ? Number(value) : value;
     setRateList(updatedList);
   };
-  
 
   const addRateRow = () => {
     setRateList([
@@ -224,7 +225,7 @@ function HotelDashboard() {
               hotel.
             </DialogContentText>
 
-            <Grid container spacing={2} sx={{mt: 1}}>
+            <Grid container spacing={2} sx={{ mt: 1 }}>
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
@@ -272,12 +273,17 @@ function HotelDashboard() {
               </Grid>
             </Grid>
 
-            <Grid item xs={12} sx={{mt: 6}}>
+            <Grid item xs={12} sx={{ mt: 6 }}>
               <h4 style={{ marginTop: "20px" }}>Rate List</h4>
             </Grid>
 
             {rateList.map((rate, index) => (
-              <Grid container spacing={2} key={index}  sx={{ mt: index !== 0 ? 2 : 0 }}>
+              <Grid
+                container
+                spacing={2}
+                key={index}
+                sx={{ mt: index !== 0 ? 2 : 0 }}
+              >
                 <Grid item xs={12} sm={2}>
                   <TextField
                     select
@@ -296,7 +302,6 @@ function HotelDashboard() {
                     ))}
                   </TextField>
                 </Grid>
-
                 <Grid item xs={12} sm={3}>
                   <TextField
                     type="date"
@@ -323,7 +328,7 @@ function HotelDashboard() {
                     }
                   />
                 </Grid>
-                <Grid item xs={12} sm={ 2}>
+                <Grid item xs={12} sm={2}>
                   <TextField
                     label="Rate"
                     type="number"
@@ -333,6 +338,11 @@ function HotelDashboard() {
                     onChange={(e) =>
                       handleRateChange(index, "ratePrice", e.target.value)
                     }
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">$</InputAdornment>
+                      ),
+                    }}
                   />
                 </Grid>
                 <Grid

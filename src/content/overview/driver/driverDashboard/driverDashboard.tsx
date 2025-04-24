@@ -14,6 +14,7 @@ import {
   FormControlLabel,
   Checkbox,
   MenuItem,
+  InputAdornment,
 } from "@mui/material";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import { useEffect, useState } from "react";
@@ -62,13 +63,16 @@ function DriverDashboard() {
     const decoded = getDecodedToken();
     console.log(decoded, "decoded");
     if (decoded) {
-      setAgencyName((decoded as ExtendedJwtPayload).agency_id ? parseInt((decoded as ExtendedJwtPayload).agency_id || "0") : null);
+      setAgencyName(
+        (decoded as ExtendedJwtPayload).agency_id
+          ? parseInt((decoded as ExtendedJwtPayload).agency_id || "0")
+          : null
+      );
     }
   }, []);
 
   const submitForm = async (data: any) => {
     try {
-
       const payload = {
         ...data,
         agencyId: agencyName,
@@ -224,6 +228,11 @@ function DriverDashboard() {
                     required: "Price per Km is required",
                     valueAsNumber: true,
                   })}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">$</InputAdornment>
+                    ),
+                  }}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>

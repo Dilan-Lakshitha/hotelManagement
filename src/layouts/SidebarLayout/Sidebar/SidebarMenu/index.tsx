@@ -260,7 +260,7 @@ function SidebarMenu() {
           component="div"
           subheader={
             <ListSubheader component="div" disableSticky>
-              Accounts
+              Tour Management
             </ListSubheader>
           }
         >
@@ -271,10 +271,10 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/management/profile/details"
+                  to="/location"
                   startIcon={<AccountCircleTwoToneIcon />}
                 >
-                  User Profile
+                  Locations Details
                 </Button>
               </ListItem>
               <ListItem component="div">

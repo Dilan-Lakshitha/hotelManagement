@@ -160,7 +160,7 @@ const GuideTable: FC<GuideTableProps> = ({ Guides = [], onEdit }) => {
                   <TableCell>{guide.name}</TableCell>
                   <TableCell>{guide.phone}</TableCell>
                   <TableCell>{guide.speakingLanguages}</TableCell>
-                  <TableCell>{guide.pricePerDay}</TableCell>
+                  <TableCell>${guide.pricePerDay?.toFixed(2)}</TableCell>
                   <TableCell>{guide.yearsOfExperience}</TableCell>
                   <TableCell>
                     <span

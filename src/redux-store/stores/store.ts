@@ -6,6 +6,7 @@ import { FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist
 import driverReducer from '../reducers/driver-reducer';
 import guideReducer from '../reducers/guide-reducer';
 import hotelReducer from '../reducers/hotel-reducer';
+import locationReducer from '../reducers/location-reducer';
 
 
 const persistConfig = {
@@ -21,6 +22,7 @@ export const store = configureStore({
     driver: driverReducer,
     guide: guideReducer,
     hotel : hotelReducer,
+    location:locationReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
