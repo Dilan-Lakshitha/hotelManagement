@@ -1,12 +1,11 @@
 import { Navigate, RouteObject } from "react-router-dom";
 import BaseLayout from "./layouts/BaseLayout";
 import SidebarLayout from "./layouts/SidebarLayout";
-import { lazy, Suspense } from "react";
-import SuspenseLoader from "./components/SuspenseLoader";
 import SignInForm from "./auth/signIn/signIn";
 import SignUpForm from "./auth/signUp/signUp";
 import MainDashboard from "./content/main-dashboard/main-dashboard";
 import DriverDashboard from "./content/overview/driver/driverDashboard/driverDashboard";
+import GuideDashboard from "./content/overview/guide/guideDashboard/guideDashboard";
 
 const isAuthenticated = () => {
   return !!localStorage.getItem("authToken");
@@ -54,7 +53,7 @@ const routes: RouteObject[] = [
           },
           {
             path: 'guide',
-            // element: <SupplierDashboard />
+            element: <GuideDashboard />
           },
           {
             path: 'drugs',

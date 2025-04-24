@@ -21,24 +21,24 @@ import { FC, useState, ChangeEvent } from "react";
 import { toast } from "sonner";
 import { AppDispatch } from "../../../../redux-store/stores/store";
 import { useDispatch } from "react-redux";
-import { deleteDriver } from "../../../../shared/service/driverService";
+import { deleteGuide } from "../../../../shared/service/guideService";
 
-interface DriverTableProps {
+interface GuideTableProps {
   className?: string;
-  Drivers: any[];
-  onEdit: (driver: any) => void;
+  Guides: any[];
+  onEdit: (guide: any) => void;
 }
 
 interface Filters {
   name?: string;
 }
 
-const applyFilters = (Drivers: any[], filters: Filters): any[] => {
-  return Drivers.filter((driver) => {
+const applyFilters = (Guides: any[], filters: Filters): any[] => {
+  return Guides.filter((guide) => {
     let matches = true;
     if (
       filters.name &&
-      !driver.customer_name.toLowerCase().includes(filters.name.toLowerCase())
+      !guide.customer_name.toLowerCase().includes(filters.name.toLowerCase())
     ) {
       matches = false;
     }
@@ -47,15 +47,15 @@ const applyFilters = (Drivers: any[], filters: Filters): any[] => {
 };
 
 const applyPagination = (
-  Drivers: any[],
+  Guides: any[],
   page: number,
   limit: number
 ): any[] => {
-  return Drivers.slice(page * limit, page * limit + limit);
+  return Guides.slice(page * limit, page * limit + limit);
 };
 
-const DriverTable: FC<DriverTableProps> = ({ Drivers = [], onEdit }) => {
-  const [selectedDrivers, setSelectedDrivers] = useState<string[]>([]);
+const GuideTable: FC<GuideTableProps> = ({ Guides = [], onEdit }) => {
+  const [selectedGuides, setSelectedGuides] = useState<string[]>([]);
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(5);
   const [filters, setFilters] = useState<Filters>({ name: "" });
@@ -66,8 +66,8 @@ const DriverTable: FC<DriverTableProps> = ({ Drivers = [], onEdit }) => {
   };
 
   const handleSelectAll = (event: ChangeEvent<HTMLInputElement>): void => {
-    setSelectedDrivers(
-      event.target.checked ? Drivers.map((p) => p.customer_id) : []
+    setSelectedGuides(
+      event.target.checked ? Guides.map((p) => p.customer_id) : []
     );
   };
 
@@ -75,7 +75,7 @@ const DriverTable: FC<DriverTableProps> = ({ Drivers = [], onEdit }) => {
     event: ChangeEvent<HTMLInputElement>,
     id: string
   ): void => {
-    setSelectedDrivers((prev) =>
+    setSelectedGuides((prev) =>
       event.target.checked ? [...prev, id] : prev.filter((pid) => pid !== id)
     );
   };
@@ -88,16 +88,16 @@ const DriverTable: FC<DriverTableProps> = ({ Drivers = [], onEdit }) => {
     setLimit(parseInt(event.target.value));
   };
 
-  const filteredDrivers = applyFilters(Drivers, filters);
-  const paginatedDrivers = applyPagination(filteredDrivers, page, limit);
+  const filteredGuides = applyFilters(Guides, filters);
+  const paginatedGuides = applyPagination(filteredGuides, page, limit);
   const selectedSome =
-    selectedDrivers.length > 0 && selectedDrivers.length < Drivers.length;
-  const selectedAll = selectedDrivers.length === Drivers.length;
+    selectedGuides.length > 0 && selectedGuides.length < Guides.length;
+  const selectedAll = selectedGuides.length === Guides.length;
 
   const handleDelete = (id: number) => {
     try {
-      dispath(deleteDriver(id));
-      toast.success("driver updated successfully! 🎉");
+      dispath(deleteGuide(id));
+      toast.success("guide updated successfully! 🎉");
     } catch {
       toast.error("Operation failed. Please check your network.");
     }
@@ -106,7 +106,7 @@ const DriverTable: FC<DriverTableProps> = ({ Drivers = [], onEdit }) => {
   return (
     <Card>
       <CardHeader
-        title="driver Details"
+        title="guide Details"
         action={
           <TextField
             label="Search by Name"
@@ -130,57 +130,57 @@ const DriverTable: FC<DriverTableProps> = ({ Drivers = [], onEdit }) => {
                   onChange={handleSelectAll}
                 />
               </TableCell>
-              <TableCell>ID</TableCell>
-              <TableCell>Driver Name</TableCell>
+              {/* <TableCell>ID</TableCell> */}
+              <TableCell>Guide Name</TableCell>
               <TableCell>Phone</TableCell>
-              <TableCell>Vehicle Type</TableCell>
-              <TableCell>Vehicle Price km</TableCell>
-              <TableCell>Vehicle Capacity</TableCell>
+              <TableCell>Langugae</TableCell>
+              <TableCell>Price</TableCell>
+              <TableCell>Experience</TableCell>
               <TableCell>Available</TableCell>
               <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {paginatedDrivers.map((driver) => {
-              const isSelected = selectedDrivers.includes(
-                driver.driverId.toString()
+            {paginatedGuides.map((guide) => {
+              const isSelected = selectedGuides.includes(
+                guide.guideId.toString()
               );
               return (
-                <TableRow key={driver.driverId} selected={isSelected} hover>
+                <TableRow key={guide.guideId} selected={isSelected} hover>
                   <TableCell padding="checkbox">
                     <Checkbox
                       color="primary"
                       checked={isSelected}
                       onChange={(e) =>
-                        handleSelectOne(e, driver.driverId.toString())
+                        handleSelectOne(e, guide.guideId.toString())
                       }
                     />
                   </TableCell>
-                  <TableCell>{driver.driverId}</TableCell>
-                  <TableCell>{driver.name}</TableCell>
-                  <TableCell>{driver.phone}</TableCell>
-                  <TableCell>{driver.vehicleType}</TableCell>
-                  <TableCell>{driver.vehiclePricePerKm}</TableCell>
-                  <TableCell>{driver.vehicleCapacity}</TableCell>
+                  {/* <TableCell>{guide.guideId}</TableCell> */}
+                  <TableCell>{guide.name}</TableCell>
+                  <TableCell>{guide.phone}</TableCell>
+                  <TableCell>{guide.speakingLanguages}</TableCell>
+                  <TableCell>{guide.pricePerDay}</TableCell>
+                  <TableCell>{guide.yearsOfExperience}</TableCell>
                   <TableCell>
                     <span
                       className={`px-2 py- rounded-full text-sm font-medium ${
-                        driver.isAvailable
+                        guide.isAvailable
                           ? "bg-green-200 text-green-900"
                           : "bg-red-200 text-red-900"
                       }`}
                     >
-                      {driver.isAvailable ? "Available" : "Unavailable"}
+                      {guide.isAvailable ? "Available" : "Unavailable"}
                     </span>
                   </TableCell>
 
                   <TableCell>
-                    <IconButton color="primary" onClick={() => onEdit(driver)}>
+                    <IconButton color="primary" onClick={() => onEdit(guide)}>
                       <EditIcon />
                     </IconButton>
                     <IconButton
                       color="error"
-                      onClick={() => handleDelete(driver.driverId)}
+                      onClick={() => handleDelete(guide.guideId)}
                     >
                       <DeleteIcon />
                     </IconButton>
@@ -194,7 +194,7 @@ const DriverTable: FC<DriverTableProps> = ({ Drivers = [], onEdit }) => {
       <Box p={2}>
         <TablePagination
           component="div"
-          count={filteredDrivers.length}
+          count={filteredGuides.length}
           onPageChange={handlePageChange}
           onRowsPerPageChange={handleLimitChange}
           page={page}
@@ -206,4 +206,4 @@ const DriverTable: FC<DriverTableProps> = ({ Drivers = [], onEdit }) => {
   );
 };
 
-export default DriverTable;
+export default GuideTable;

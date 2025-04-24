@@ -22,14 +22,13 @@ import { AppDispatch } from "../../../../redux-store/stores/store";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import {
-  driverCreate,
-  drivers,
-  updateDriver,
-} from "../../../../shared/service/driverService";
-import DriverTable from "./guideTable";
+  guideCreate,
+  guides,
+  updateGuide,
+} from "../../../../shared/service/guideService";
+import GuideTable from "./guideTable";
 import { getDecodedToken } from "../../../../shared/service/managerService";
 import { JwtPayload } from "jwt-decode";
-import { set } from "date-fns";
 
 interface ExtendedJwtPayload extends JwtPayload {
   email?: string;
@@ -37,12 +36,12 @@ interface ExtendedJwtPayload extends JwtPayload {
   agency_id?: string;
 }
 
-function DriverDashboard() {
+function GuideDashboard() {
   const { success } = useSelector((state: any) => state.auth);
-  const driverList = useSelector((state: any) => state.driver.driver);
+  const guideList = useSelector((state: any) => state.guide.guide);
   const [open, setOpen] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
-  const [selectedDriver, setSelectedDriver] = useState<any>(null);
+  const [selectedGuide, setSelectedGuide] = useState<any>(null);
   const [agencyName, setAgencyName] = useState<number | null>(null);
 
   const dispath: AppDispatch = useDispatch();
@@ -55,30 +54,33 @@ function DriverDashboard() {
   } = useForm({ mode: "onChange" });
 
   useEffect(() => {
-    dispath(drivers());
+    dispath(guides());
   }, [dispath]);
 
   useEffect(() => {
     const decoded = getDecodedToken();
     console.log(decoded, "decoded");
     if (decoded) {
-      setAgencyName((decoded as ExtendedJwtPayload).agency_id ? parseInt((decoded as ExtendedJwtPayload).agency_id || "0") : null);
+      setAgencyName(
+        (decoded as ExtendedJwtPayload).agency_id
+          ? parseInt((decoded as ExtendedJwtPayload).agency_id || "0")
+          : null
+      );
     }
   }, []);
 
   const submitForm = async (data: any) => {
     try {
-
       const payload = {
         ...data,
         agencyId: agencyName,
       };
       if (isEditMode) {
-        dispath(updateDriver({ ...selectedDriver, ...data }));
-        toast.success("driver updated successfully! 🎉");
+        dispath(updateGuide({ ...selectedGuide, ...payload }));
+        toast.success("Guide updated successfully! 🎉");
       } else {
-        dispath(driverCreate(payload));
-        toast.success("driver added successfully! 🎉");
+        dispath(guideCreate(payload));
+        toast.success("Guide added successfully! 🎉");
       }
       handleClose();
     } catch {
@@ -87,23 +89,21 @@ function DriverDashboard() {
   };
 
   useEffect(() => {
-    if (selectedDriver) {
-      console.log("selectedDriver", selectedDriver);
-      setValue("Name", selectedDriver.name);
-      setValue("VehicleType", selectedDriver.vehicleType);
-      setValue("VehiclePricePerKm", selectedDriver.vehiclePricePerKm);
-      setValue("Phone", selectedDriver.phone);
-      setValue("Email", selectedDriver.email);
-      setValue("LicenseNumber", selectedDriver.licenseNumber);
-      setValue("VehicleModel", selectedDriver.vehicleModel);
-      setValue("VehicleNumber", selectedDriver.vehicleNumber);
-      setValue("VehicleCapacity", selectedDriver.vehicleCapacity);
-      setValue("IsAvailable", selectedDriver.isAvailable);
-      setValue("Notes", selectedDriver.notes);
+    if (selectedGuide) {
+      console.log("selectedGuide", selectedGuide);
+      setValue("name", selectedGuide.name);
+      setValue("speakingLanguages", selectedGuide.speakingLanguages);
+      setValue("pricePerDay", selectedGuide.pricePerDay);
+      setValue("phone", selectedGuide.phone);
+      setValue("email", selectedGuide.email);
+      setValue("licenseNumber", selectedGuide.licenseNumber);
+      setValue("yearsOfExperience", selectedGuide.yearsOfExperience);
+      setValue("isAvailable", selectedGuide.isAvailable);
+      setValue("notes", selectedGuide.notes);
     } else {
       reset();
     }
-  }, [selectedDriver, setValue, reset]);
+  }, [selectedGuide, setValue, reset]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -111,13 +111,13 @@ function DriverDashboard() {
 
   const handleClose = () => {
     setOpen(false);
-    setSelectedDriver(null);
+    setSelectedGuide(null);
     setIsEditMode(false);
     reset();
   };
 
-  const handleEdit = (driver: any) => {
-    setSelectedDriver(driver);
+  const handleEdit = (guide: any) => {
+    setSelectedGuide(guide);
     setIsEditMode(true);
     setOpen(true);
   };
@@ -134,7 +134,7 @@ function DriverDashboard() {
           justifyContent: "flex-start",
         }}
       >
-        Driver Dashboard
+        Guide Dashboard
       </h1>
       <h3
         style={{
@@ -145,7 +145,7 @@ function DriverDashboard() {
           justifyContent: "flex-start",
         }}
       >
-        Add and manage your drivers here
+        Add and manage your guides here
       </h3>
       <Grid spacing={{ xs: 0, md: 2 }}>
         <Grid item md={10} lg={0} mx="auto" alignItems="end">
@@ -158,12 +158,12 @@ function DriverDashboard() {
             >
               <PersonAddIcon />
               <Icon fontSize="small" />
-              Add driver
+              Add guide
             </Button>
           </Box>
           <Grid item md={6} mt={2} mx="auto">
             <Card>
-              <DriverTable Drivers={driverList || []} onEdit={handleEdit} />
+              <GuideTable Guides={guideList || []} onEdit={handleEdit} />
             </Card>
           </Grid>
         </Grid>
@@ -172,7 +172,7 @@ function DriverDashboard() {
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle sx={{ backgroundColor: "#261140", color: "white" }}>
           <PersonAddIcon sx={{ marginRight: 1 }} />
-          {isEditMode ? "Update Driver" : "Add Driver"}
+          {isEditMode ? "Update Guide" : "Add Guide"}
         </DialogTitle>
         <form
           onSubmit={handleSubmit(submitForm)}
@@ -181,7 +181,7 @@ function DriverDashboard() {
           <DialogContent>
             <DialogContentText>
               Please fill out the form to {isEditMode ? "update" : "add"} a
-              driver.
+              guide.
             </DialogContentText>
 
             <Grid container spacing={2}>
@@ -189,9 +189,9 @@ function DriverDashboard() {
                 <TextField
                   fullWidth
                   required
-                  label="Driver Name"
+                  label="Guide Name"
                   variant="standard"
-                  {...register("Name", { required: "Driver Name is required" })}
+                  {...register("name", { required: "Guide Name is required" })}
                 />
               </Grid>
 
@@ -200,16 +200,16 @@ function DriverDashboard() {
                   select
                   fullWidth
                   required
-                  label="Vehicle Type"
+                  label="Language"
                   variant="standard"
                   defaultValue=""
-                  {...register("VehicleType", {
-                    required: "Vehicle Type is required",
+                  {...register("speakingLanguages", {
+                    required: "Language is required",
                   })}
                 >
-                  <MenuItem value="Car">Car</MenuItem>
-                  <MenuItem value="Van">Van</MenuItem>
-                  <MenuItem value="Bus">Bus</MenuItem>
+                  <MenuItem value="English">English</MenuItem>
+                  <MenuItem value="German">German</MenuItem>
+                  <MenuItem value="Russian">Russian</MenuItem>
                 </TextField>
               </Grid>
 
@@ -217,11 +217,11 @@ function DriverDashboard() {
                 <TextField
                   fullWidth
                   required
-                  label="Price per Km"
+                  label="Price"
                   type="number"
                   variant="standard"
-                  {...register("VehiclePricePerKm", {
-                    required: "Price per Km is required",
+                  {...register("pricePerDay", {
+                    required: "Price per Day is required",
                     valueAsNumber: true,
                   })}
                 />
@@ -232,7 +232,7 @@ function DriverDashboard() {
                   required
                   label="Phone"
                   variant="standard"
-                  {...register("Phone", { required: "Phone is required" })}
+                  {...register("phone", { required: "Phone is required" })}
                 />
               </Grid>
 
@@ -243,7 +243,7 @@ function DriverDashboard() {
                   label="Email"
                   type="email"
                   variant="standard"
-                  {...register("Email", { required: "Email is required" })}
+                  {...register("email", { required: "Email is required" })}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -252,7 +252,7 @@ function DriverDashboard() {
                   required
                   label="License Number"
                   variant="standard"
-                  {...register("LicenseNumber", {
+                  {...register("licenseNumber", {
                     required: "License Number is required",
                   })}
                 />
@@ -262,41 +262,16 @@ function DriverDashboard() {
                 <TextField
                   fullWidth
                   required
-                  label="Vehicle Model"
+                  label="Experience"
                   variant="standard"
-                  {...register("VehicleModel", {
-                    required: "Vehicle Model is required",
-                  })}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  required
-                  label="Vehicle Number"
-                  variant="standard"
-                  {...register("VehicleNumber", {
-                    required: "Vehicle Number is required",
-                  })}
-                />
-              </Grid>
-
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  required
-                  label="Vehicle Capacity"
-                  type="number"
-                  variant="standard"
-                  {...register("VehicleCapacity", {
-                    required: "Vehicle Capacity is required",
-                    valueAsNumber: true,
+                  {...register("yearsOfExperience", {
+                    required: "Experience Model is required",
                   })}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <FormControlLabel
-                  control={<Checkbox {...register("IsAvailable")} />}
+                  control={<Checkbox {...register("isAvailable")} />}
                   label="Available"
                 />
               </Grid>
@@ -308,7 +283,7 @@ function DriverDashboard() {
                   multiline
                   rows={3}
                   variant="standard"
-                  {...register("Notes")}
+                  {...register("notes")}
                 />
               </Grid>
             </Grid>
@@ -331,4 +306,4 @@ function DriverDashboard() {
     </Container>
   );
 }
-export default DriverDashboard;
+export default GuideDashboard;

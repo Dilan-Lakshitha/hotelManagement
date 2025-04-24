@@ -130,7 +130,7 @@ const DriverTable: FC<DriverTableProps> = ({ Drivers = [], onEdit }) => {
                   onChange={handleSelectAll}
                 />
               </TableCell>
-              <TableCell>ID</TableCell>
+              {/* <TableCell>ID</TableCell> */}
               <TableCell>Driver Name</TableCell>
               <TableCell>Phone</TableCell>
               <TableCell>Vehicle Type</TableCell>
@@ -156,7 +156,7 @@ const DriverTable: FC<DriverTableProps> = ({ Drivers = [], onEdit }) => {
                       }
                     />
                   </TableCell>
-                  <TableCell>{driver.driverId}</TableCell>
+                  {/* <TableCell>{driver.driverId}</TableCell> */}
                   <TableCell>{driver.name}</TableCell>
                   <TableCell>{driver.phone}</TableCell>
                   <TableCell>{driver.vehicleType}</TableCell>

@@ -1,17 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import {
-  deleteDriver,
-  driverCreate,
-  drivers,
-  updateDriver,
-} from "../../shared/service/driverService";
-import { driverModel } from "../../shared/models/driver-model";
+import { guideModel } from "../../shared/models/guide-model";
+import { deleteGuide, guideCreate, guides, updateGuide } from "../../shared/service/guideService";
 
-const initialState: driverModel = {
+const initialState: guideModel = {
   loading: false,
   error: "",
   success: false,
-  driver: [],
+  guide: [],
 };
 
 const guideSlice = createSlice({
@@ -28,73 +23,73 @@ const guideSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(driverCreate.pending, (state) => {
+      .addCase(guideCreate.pending, (state) => {
         state.loading = true;
         state.error = "";
       })
-      .addCase(driverCreate.fulfilled, (state, payload: any) => {
+      .addCase(guideCreate.fulfilled, (state, payload: any) => {
         state.loading = false;
         state.success = payload.success;
         if (payload) {
-          state.driver.push(payload.payload);
+          state.guide.push(payload.payload);
         }
       })
-      .addCase(driverCreate.rejected, (state, action) => {
+      .addCase(guideCreate.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       })
 
-      .addCase(drivers.pending, (state) => {
+      .addCase(guides.pending, (state) => {
         state.loading = true;
         state.error = "";
       })
-      .addCase(drivers.fulfilled, (state, payload: any) => {
+      .addCase(guides.fulfilled, (state, payload: any) => {
         console.log("payload", payload);
         state.loading = false;
         state.success = payload.success;
-        state.driver = payload.payload;
+        state.guide = payload.payload;
       })
-      .addCase(drivers.rejected, (state, action) => {
+      .addCase(guides.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       })
 
-      .addCase(updateDriver.pending, (state) => {
+      .addCase(updateGuide.pending, (state) => {
         state.loading = true;
         state.error = "";
       })
-      .addCase(updateDriver.fulfilled, (state, action: any) => {
+      .addCase(updateGuide.fulfilled, (state, action: any) => {
         state.loading = false;
         state.success = action.payload.success;
 
         const updatedPatient = action.payload;
-        const index = state.driver.findIndex(
+        const index = state.guide.findIndex(
           (p: any) => p.customer_id === updatedPatient.customer_id
         );
         if (index !== -1) {
-          state.driver[index] = updatedPatient;
+          state.guide[index] = updatedPatient;
         }
       })
-      .addCase(updateDriver.rejected, (state, action) => {
+      .addCase(updateGuide.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       })
 
-      .addCase(deleteDriver.pending, (state) => {
+      .addCase(deleteGuide.pending, (state) => {
         state.loading = true;
         state.error = "";
       })
-      .addCase(deleteDriver.fulfilled, (state, action: any) => {
+      .addCase(deleteGuide.fulfilled, (state, action: any) => {
         state.loading = false;
         state.success = action.payload.success;
 
         console.log("action.payload", action.payload);
         const deletedId = action.payload.deletedCustomerId;
-        state.driver = state.driver.filter(
+        state.guide = state.guide.filter(
           (p: any) => p.customer_id !== deletedId
         );
       })
-      .addCase(deleteDriver.rejected, (state, action) => {
+      .addCase(deleteGuide.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       });
