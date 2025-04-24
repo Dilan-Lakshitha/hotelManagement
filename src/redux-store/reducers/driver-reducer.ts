@@ -87,11 +87,9 @@ const driverSlice = createSlice({
       .addCase(deleteDriver.fulfilled, (state, action: any) => {
         state.loading = false;
         state.success = action.payload.success;
-
-        console.log("action.payload", action.payload);
-        const deletedId = action.payload.deletedCustomerId;
+        const deletedId = action.payload.id;
         state.driver = state.driver.filter(
-          (p: any) => p.customer_id !== deletedId
+          (p: any) => p.driver_id !== deletedId
         );
       })
       .addCase(deleteDriver.rejected, (state, action) => {

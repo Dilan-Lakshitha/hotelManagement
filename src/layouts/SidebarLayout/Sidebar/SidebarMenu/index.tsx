@@ -236,7 +236,7 @@ function SidebarMenu() {
           component="div"
           subheader={
             <ListSubheader component="div" disableSticky>
-              Management
+              Accomodation
             </ListSubheader>
           }
         >
@@ -247,10 +247,10 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/management/transactions"
+                  to="/hotel"
                   startIcon={<TableChartTwoToneIcon />}
                 >
-                  Transactions List
+                  Hotel
                 </Button>
               </ListItem>
             </List>

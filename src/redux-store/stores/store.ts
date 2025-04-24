@@ -5,6 +5,7 @@ import storage from 'redux-persist/lib/storage'; // Defaults to localStorage
 import { FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
 import driverReducer from '../reducers/driver-reducer';
 import guideReducer from '../reducers/guide-reducer';
+import hotelReducer from '../reducers/hotel-reducer';
 
 
 const persistConfig = {
@@ -19,6 +20,7 @@ export const store = configureStore({
     auth: persistedAuthReducer,
     driver: driverReducer,
     guide: guideReducer,
+    hotel : hotelReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

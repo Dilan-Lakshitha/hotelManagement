@@ -1,16 +1,22 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { guideModel } from "../../shared/models/guide-model";
-import { deleteGuide, guideCreate, guides, updateGuide } from "../../shared/service/guideService";
+import {
+  deleteHotel,
+  hotelCreate,
+  hotels,
+  updateHotel,
+} from "../../shared/service/hotelService";
+import { hotelModel } from "../../shared/models/hotel-model";
 
-const initialState: guideModel = {
+const initialState: hotelModel = {
   loading: false,
   error: "",
   success: false,
-  guide: [],
+  hotel: [],
+  pendingRates: [],
 };
 
-const guideSlice = createSlice({
-  name: "guide",
+const hotelSlice = createSlice({
+  name: "hotel",
   initialState,
   reducers: {
     resetState: (state) => {
@@ -20,79 +26,86 @@ const guideSlice = createSlice({
     resetSuccess: (state) => {
       state.success = false;
     },
+    setPendingRates: (state, action) => {
+      state.pendingRates = action.payload;
+    },
+    clearPendingRates: (state) => {
+      state.pendingRates = [];
+    },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(guideCreate.pending, (state) => {
+      .addCase(hotelCreate.pending, (state) => {
         state.loading = true;
         state.error = "";
       })
-      .addCase(guideCreate.fulfilled, (state, payload: any) => {
+      .addCase(hotelCreate.fulfilled, (state, payload: any) => {
         state.loading = false;
         state.success = payload.success;
         if (payload) {
-          state.guide.push(payload.payload);
+          state.hotel.push(payload.payload);
         }
       })
-      .addCase(guideCreate.rejected, (state, action) => {
+      .addCase(hotelCreate.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       })
 
-      .addCase(guides.pending, (state) => {
+      .addCase(hotels.pending, (state) => {
         state.loading = true;
         state.error = "";
       })
-      .addCase(guides.fulfilled, (state, payload: any) => {
+      .addCase(hotels.fulfilled, (state, payload: any) => {
         console.log("payload", payload);
         state.loading = false;
         state.success = payload.success;
-        state.guide = payload.payload;
+        state.hotel = payload.payload;
       })
-      .addCase(guides.rejected, (state, action) => {
+      .addCase(hotels.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       })
 
-      .addCase(updateGuide.pending, (state) => {
+      .addCase(updateHotel.pending, (state) => {
         state.loading = true;
         state.error = "";
       })
-      .addCase(updateGuide.fulfilled, (state, action: any) => {
+      .addCase(updateHotel.fulfilled, (state, action: any) => {
         state.loading = false;
         state.success = action.payload.success;
 
         const updatedPatient = action.payload;
-        const index = state.guide.findIndex(
+        const index = state.hotel.findIndex(
           (p: any) => p.customer_id === updatedPatient.customer_id
         );
         if (index !== -1) {
-          state.guide[index] = updatedPatient;
+          state.hotel[index] = updatedPatient;
         }
       })
-      .addCase(updateGuide.rejected, (state, action) => {
+      .addCase(updateHotel.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       })
 
-      .addCase(deleteGuide.pending, (state) => {
+      .addCase(deleteHotel.pending, (state) => {
         state.loading = true;
         state.error = "";
       })
-      .addCase(deleteGuide.fulfilled, (state, action: any) => {
+      .addCase(deleteHotel.fulfilled, (state, action: any) => {
         state.loading = false;
         state.success = action.payload.success;
         const deletedId = action.payload.deletedId;
-        state.guide = state.guide.filter(
-          (p: any) => p.guideId !== deletedId
+        state.hotel = state.hotel.filter(
+          (p: any) => p.hotel_id !== deletedId
         );
       })
-      .addCase(deleteGuide.rejected, (state, action) => {
+      .addCase(deleteHotel.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       });
   },
 });
 
-export const { resetState, resetSuccess } = guideSlice.actions;
-export default guideSlice.reducer;
+export const { resetState, resetSuccess, setPendingRates ,clearPendingRates } =
+  hotelSlice.actions;
+export default hotelSlice.reducer;

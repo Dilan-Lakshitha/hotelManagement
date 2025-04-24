@@ -6,6 +6,7 @@ import SignUpForm from "./auth/signUp/signUp";
 import MainDashboard from "./content/main-dashboard/main-dashboard";
 import DriverDashboard from "./content/overview/driver/driverDashboard/driverDashboard";
 import GuideDashboard from "./content/overview/guide/guideDashboard/guideDashboard";
+import HotelDashboard from "./content/overview/Hotel/hotelDashboard/hotelDashboard";
 
 const isAuthenticated = () => {
   return !!localStorage.getItem("authToken");
@@ -56,8 +57,8 @@ const routes: RouteObject[] = [
             element: <GuideDashboard />
           },
           {
-            path: 'drugs',
-            // element: <DrugsDashboard />
+            path: 'hotel',
+            element: <HotelDashboard />
           },
           {
             path: 'purchase',
