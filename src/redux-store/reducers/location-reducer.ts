@@ -62,12 +62,12 @@ const locationSlice = createSlice({
         state.loading = false;
         state.success = action.payload.success;
 
-        const updatedPatient = action.payload;
+        const updatedLocation = action.payload;
         const index = state.location.findIndex(
-          (p: any) => p.customer_id === updatedPatient.customer_id
+          (p: any) => p.location_ticket_id === updatedLocation.location_ticket_id
         );
         if (index !== -1) {
-          state.location[index] = updatedPatient;
+          state.location[index] = updatedLocation;
         }
       })
       .addCase(updatelocation.rejected, (state, action) => {
@@ -84,7 +84,7 @@ const locationSlice = createSlice({
         state.success = action.payload.success;
         const deletedId = action.payload.deletedId;
         state.location = state.location.filter(
-          (p: any) => p.locationId !== deletedId
+          (p: any) => p.location_ticket_id !== deletedId
         );
       })
       .addCase(deletelocation.rejected, (state, action) => {

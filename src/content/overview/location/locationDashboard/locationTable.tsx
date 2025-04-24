@@ -176,7 +176,7 @@ const LocationTable: FC<LocationTableProps> = ({ Locations = [], onEdit }) => {
                     </IconButton>
                     <IconButton
                       color="error"
-                      onClick={() => handleDelete(location.locationId)}
+                      onClick={() => handleDelete(location.location_ticket_id)}
                     >
                       <DeleteIcon />
                     </IconButton>

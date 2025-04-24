@@ -14,6 +14,7 @@ import {
   FormControlLabel,
   Checkbox,
   MenuItem,
+  InputAdornment,
 } from "@mui/material";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import { useEffect, useState } from "react";
@@ -211,6 +212,11 @@ function LocationDashboard() {
                     required: "Adult price is required",
                     valueAsNumber: true,
                   })}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">$</InputAdornment>
+                    ),
+                  }}
                 ></TextField>
               </Grid>
 
@@ -225,6 +231,11 @@ function LocationDashboard() {
                     required: "Child price is required",
                     valueAsNumber: true,
                   })}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">$</InputAdornment>
+                    ),
+                  }}
                 />
               </Grid>
             </Grid>
