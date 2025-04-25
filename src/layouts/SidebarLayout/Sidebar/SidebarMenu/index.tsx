@@ -17,19 +17,12 @@ import BrightnessLowTwoToneIcon from '@mui/icons-material/BrightnessLowTwoTone';
 import MmsTwoToneIcon from '@mui/icons-material/MmsTwoTone';
 import TableChartTwoToneIcon from '@mui/icons-material/TableChartTwoTone';
 import AccountCircleTwoToneIcon from '@mui/icons-material/AccountCircleTwoTone';
-import BallotTwoToneIcon from '@mui/icons-material/BallotTwoTone';
-import BeachAccessTwoToneIcon from '@mui/icons-material/BeachAccessTwoTone';
-import EmojiEventsTwoToneIcon from '@mui/icons-material/EmojiEventsTwoTone';
-import FilterVintageTwoToneIcon from '@mui/icons-material/FilterVintageTwoTone';
-import HowToVoteTwoToneIcon from '@mui/icons-material/HowToVoteTwoTone';
-import LocalPharmacyTwoToneIcon from '@mui/icons-material/LocalPharmacyTwoTone';
-import RedeemTwoToneIcon from '@mui/icons-material/RedeemTwoTone';
-import SettingsTwoToneIcon from '@mui/icons-material/SettingsTwoTone';
-import TrafficTwoToneIcon from '@mui/icons-material/TrafficTwoTone';
-import CheckBoxTwoToneIcon from '@mui/icons-material/CheckBoxTwoTone';
-import ChromeReaderModeTwoToneIcon from '@mui/icons-material/ChromeReaderModeTwoTone';
-import WorkspacePremiumTwoToneIcon from '@mui/icons-material/WorkspacePremiumTwoTone';
-import CameraFrontTwoToneIcon from '@mui/icons-material/CameraFrontTwoTone';
+import DriveEtaTwoToneIcon from '@mui/icons-material/DriveEtaTwoTone';
+import EmojiPeopleTwoToneIcon from '@mui/icons-material/EmojiPeopleTwoTone';
+import HotelTwoToneIcon from '@mui/icons-material/HotelTwoTone';
+import PlaceTwoToneIcon from '@mui/icons-material/PlaceTwoTone';
+import TravelExploreTwoToneIcon from '@mui/icons-material/TravelExploreTwoTone';
+
 import DisplaySettingsTwoToneIcon from '@mui/icons-material/DisplaySettingsTwoTone';
 
 const MenuWrapper = styled(Box)(
@@ -201,7 +194,7 @@ function SidebarMenu() {
           component="div"
           subheader={
             <ListSubheader component="div" disableSticky>
-              Management
+              Transport & Staff
             </ListSubheader>
           }
         >
@@ -213,7 +206,7 @@ function SidebarMenu() {
                   component={RouterLink}
                   onClick={closeSidebar}
                   to="/driver"
-                  startIcon={<BrightnessLowTwoToneIcon />}
+                  startIcon={<DriveEtaTwoToneIcon  />}
                 >
                   Driver
                 </Button>
@@ -224,7 +217,7 @@ function SidebarMenu() {
                   component={RouterLink}
                   onClick={closeSidebar}
                   to="/guide"
-                  startIcon={<MmsTwoToneIcon />}
+                  startIcon={<EmojiPeopleTwoToneIcon  />}
                 >
                   Guide
                 </Button>
@@ -236,7 +229,7 @@ function SidebarMenu() {
           component="div"
           subheader={
             <ListSubheader component="div" disableSticky>
-              Accomodation
+              Stays & Lodging
             </ListSubheader>
           }
         >
@@ -248,7 +241,7 @@ function SidebarMenu() {
                   component={RouterLink}
                   onClick={closeSidebar}
                   to="/hotel"
-                  startIcon={<TableChartTwoToneIcon />}
+                  startIcon={<HotelTwoToneIcon />}
                 >
                   Hotel
                 </Button>
@@ -260,7 +253,7 @@ function SidebarMenu() {
           component="div"
           subheader={
             <ListSubheader component="div" disableSticky>
-              Tour Management
+              Trips & Travelers
             </ListSubheader>
           }
         >
@@ -272,7 +265,7 @@ function SidebarMenu() {
                   component={RouterLink}
                   onClick={closeSidebar}
                   to="/location"
-                  startIcon={<AccountCircleTwoToneIcon />}
+                  startIcon={<PlaceTwoToneIcon  />}
                 >
                   Locations Details
                 </Button>
@@ -282,10 +275,10 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/management/profile/settings"
-                  startIcon={<DisplaySettingsTwoToneIcon />}
+                  to="/traveler"
+                  startIcon={<TravelExploreTwoToneIcon />}
                 >
-                  Account Settings
+                  Traveler
                 </Button>
               </ListItem>
             </List>

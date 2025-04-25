@@ -8,6 +8,7 @@ import DriverDashboard from "./content/overview/driver/driverDashboard/driverDas
 import GuideDashboard from "./content/overview/guide/guideDashboard/guideDashboard";
 import HotelDashboard from "./content/overview/Hotel/hotelDashboard/hotelDashboard";
 import LocationDashboard from "./content/overview/location/locationDashboard/locationDashboard";
+import TravelerDashboard from "./content/overview/traveler/travelerDashboard/travelerDashboard";
 
 const isAuthenticated = () => {
   return !!localStorage.getItem("authToken");
@@ -64,6 +65,10 @@ const routes: RouteObject[] = [
           {
             path: 'location',
             element: <LocationDashboard/>
+          },
+          {
+            path: 'traveler',
+            element: <TravelerDashboard/>
           }
     ]
   }
