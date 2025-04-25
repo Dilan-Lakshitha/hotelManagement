@@ -82,9 +82,9 @@ const itinerarySlice = createSlice({
       .addCase(deleteitinerary.fulfilled, (state, action: any) => {
         state.loading = false;
         state.success = action.payload.success;
-        const deletedId = action.payload.deletedId;
+        const deletedId = action.payload;
         state.itinerary = state.itinerary.filter(
-          (p: any) => p.itineraryId !== deletedId
+          (p: any) => p.itinerary_id !== deletedId
         );
       })
       .addCase(deleteitinerary.rejected, (state, action) => {
