@@ -9,6 +9,7 @@ import GuideDashboard from "./content/overview/guide/guideDashboard/guideDashboa
 import HotelDashboard from "./content/overview/Hotel/hotelDashboard/hotelDashboard";
 import LocationDashboard from "./content/overview/location/locationDashboard/locationDashboard";
 import TravelerDashboard from "./content/overview/traveler/travelerDashboard/travelerDashboard";
+import ItineraryDashboard from "./content/overview/Itinerary/itineraryDashboard/itineraryDashboard";
 
 const isAuthenticated = () => {
   return !!localStorage.getItem("authToken");
@@ -69,6 +70,10 @@ const routes: RouteObject[] = [
           {
             path: 'traveler',
             element: <TravelerDashboard/>
+          },
+          {
+            path: 'tour-plan',
+            element: <ItineraryDashboard/>
           }
     ]
   }

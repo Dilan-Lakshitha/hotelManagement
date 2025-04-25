@@ -13,17 +13,13 @@ import { NavLink as RouterLink } from 'react-router-dom';
 import { SidebarContext } from '../../../../contexts/SidebarContext';
 
 import DesignServicesTwoToneIcon from '@mui/icons-material/DesignServicesTwoTone';
-import BrightnessLowTwoToneIcon from '@mui/icons-material/BrightnessLowTwoTone';
-import MmsTwoToneIcon from '@mui/icons-material/MmsTwoTone';
-import TableChartTwoToneIcon from '@mui/icons-material/TableChartTwoTone';
-import AccountCircleTwoToneIcon from '@mui/icons-material/AccountCircleTwoTone';
 import DriveEtaTwoToneIcon from '@mui/icons-material/DriveEtaTwoTone';
 import EmojiPeopleTwoToneIcon from '@mui/icons-material/EmojiPeopleTwoTone';
 import HotelTwoToneIcon from '@mui/icons-material/HotelTwoTone';
 import PlaceTwoToneIcon from '@mui/icons-material/PlaceTwoTone';
 import TravelExploreTwoToneIcon from '@mui/icons-material/TravelExploreTwoTone';
+import MapTwoToneIcon from '@mui/icons-material/MapTwoTone';
 
-import DisplaySettingsTwoToneIcon from '@mui/icons-material/DisplaySettingsTwoTone';
 
 const MenuWrapper = styled(Box)(
   ({ theme }) => `
@@ -279,6 +275,17 @@ function SidebarMenu() {
                   startIcon={<TravelExploreTwoToneIcon />}
                 >
                   Traveler
+                </Button>
+              </ListItem>
+              <ListItem component="div">
+                <Button
+                  disableRipple
+                  component={RouterLink}
+                  onClick={closeSidebar}
+                  to="/tour-plan"
+                  startIcon={<MapTwoToneIcon />}
+                >
+                  Tour Plan
                 </Button>
               </ListItem>
             </List>
