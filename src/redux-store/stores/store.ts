@@ -9,6 +9,7 @@ import hotelReducer from '../reducers/hotel-reducer';
 import locationReducer from '../reducers/location-reducer';
 import travelerReducer from '../reducers/traveler-reducer';
 import itineraryReducer from '../reducers/itinerary-reducer';
+import bookingtourReducer from '../reducers/bookingtour-reducer';
 
 
 const persistConfig = {
@@ -27,6 +28,7 @@ export const store = configureStore({
     location:locationReducer,
     traveler : travelerReducer,
     itinerary : itineraryReducer,
+    bookingtour : bookingtourReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

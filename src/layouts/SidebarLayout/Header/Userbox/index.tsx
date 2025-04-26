@@ -93,15 +93,12 @@ function HeaderUserbox() {
   return (
     <>
       <UserBoxButton color="secondary" ref={ref} onClick={handleOpen}>
-        <Avatar variant="rounded" sx={{ bgcolor: "#261140", mr: 1 }}>
-          {agencyName?.charAt(0).toUpperCase()}
-        </Avatar>
         <Hidden mdDown>
           <UserBoxText>
-            <UserBoxLabel variant="body1">{agencyName}</UserBoxLabel>
-            <UserBoxDescription variant="body2">
+            <UserBoxLabel variant="body1">Settings</UserBoxLabel>
+            {/* <UserBoxDescription variant="body2">
               {agencyeEmail}
-            </UserBoxDescription>
+            </UserBoxDescription> */}
           </UserBoxText>
         </Hidden>
         <Hidden smDown>
@@ -122,9 +119,6 @@ function HeaderUserbox() {
         }}
       >
         <MenuUserBox sx={{ minWidth: 210 }} display="flex">
-          <Avatar variant="rounded" sx={{ bgcolor: "#261140", mr: 1 }}>
-            {agencyName?.charAt(0).toUpperCase()}
-          </Avatar>
           <UserBoxText>
             <UserBoxLabel variant="body1">{agencyName}</UserBoxLabel>
             <UserBoxDescription variant="body2">

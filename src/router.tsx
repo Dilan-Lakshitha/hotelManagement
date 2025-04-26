@@ -10,6 +10,7 @@ import HotelDashboard from "./content/overview/Hotel/hotelDashboard/hotelDashboa
 import LocationDashboard from "./content/overview/location/locationDashboard/locationDashboard";
 import TravelerDashboard from "./content/overview/traveler/travelerDashboard/travelerDashboard";
 import ItineraryDashboard from "./content/overview/Itinerary/itineraryDashboard/itineraryDashboard";
+import BookingDashboard from "./content/overview/booking/bookingDashboard/bookingDashboard";
 
 const isAuthenticated = () => {
   return !!localStorage.getItem("authToken");
@@ -72,8 +73,12 @@ const routes: RouteObject[] = [
             element: <TravelerDashboard/>
           },
           {
-            path: 'tour-plan',
+            path: 'itinerary',
             element: <ItineraryDashboard/>
+          },
+          {
+            path: 'booktrip',
+            element: <BookingDashboard/>
           }
     ]
   }

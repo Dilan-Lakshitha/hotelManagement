@@ -19,6 +19,7 @@ import HotelTwoToneIcon from '@mui/icons-material/HotelTwoTone';
 import PlaceTwoToneIcon from '@mui/icons-material/PlaceTwoTone';
 import TravelExploreTwoToneIcon from '@mui/icons-material/TravelExploreTwoTone';
 import MapTwoToneIcon from '@mui/icons-material/MapTwoTone';
+import { Money } from '@mui/icons-material';
 
 
 const MenuWrapper = styled(Box)(
@@ -282,10 +283,34 @@ function SidebarMenu() {
                   disableRipple
                   component={RouterLink}
                   onClick={closeSidebar}
-                  to="/tour-plan"
+                  to="/itinerary"
                   startIcon={<MapTwoToneIcon />}
                 >
-                  Tour Plan
+                  Itinerary
+                </Button>
+              </ListItem>
+            </List>
+          </SubMenuWrapper>
+        </List>
+        <List
+          component="div"
+          subheader={
+            <ListSubheader component="div" disableSticky>
+              Invoice generate 
+            </ListSubheader>
+          }
+        >
+          <SubMenuWrapper>
+            <List component="div">
+              <ListItem component="div">
+                <Button
+                  disableRipple
+                  component={RouterLink}
+                  onClick={closeSidebar}
+                  to="/booktrip"
+                  startIcon={<Money  />}
+                >
+                  Book a Trip
                 </Button>
               </ListItem>
             </List>
